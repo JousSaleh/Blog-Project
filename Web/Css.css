@@ -270,97 +270,200 @@
 }
 
 
-.modallLogin{
-
+.modallLogin {
     position: relative;
 
-    width:600px;
-    height:500px;
+    width: 500px;
+    height: 450px;
 
-    background:white;
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
 
-    border-radius:10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
-    padding:20px;
-
-    display:flex;
-
-    flex-direction:column;
-
-    justify-content:center;
-
-    align-items:center;
-
-    gap:20px;
-
-}
-.loginFelids{
-
-    width:300px;
-
-    padding:12px;
-
-    border-radius:12px;
-
-}
-#LoginButten{
-
-    width:120px;
-
-    height:40px;
-
-    border-radius:12px;
-
+    gap: 15px;
 }
 
-#newAccount{
 
-    width:180px;
-
-    height:50px;
-
-    border-radius:12px;
-
-    margin-top: 20%;
-
+/* عنوان Login */
+.modallLogin h2 {
+    margin: 0 0 10px 0;
 }
-#closeModalLogin{
 
+
+/* الفورم */
+#loginForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 15px;
+}
+
+
+/* حقول تسجيل الدخول */
+.loginFelids {
+    width: 300px;
+    height: 45px;
+
+    padding: 12px;
+
+    border: 3px solid #88f5eb;
+    border-radius: 12px;
+
+    box-sizing: border-box;
+}
+
+
+/* زر Login */
+#LoginSubmit {
+    width: 120px;
+    height: 40px;
+
+    border: none;
+    border-radius: var(--border-radius-soft);
+background-color: rgba(203, 112, 142, 0.688);
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+
+/* رسالة الخطأ / النجاح */
+#loginMessage {
+    margin: 0;
+}
+
+
+/* زر Create Account */
+#newAccount {
+    width: 210px;
+    height: 45px;
+background-color: rgba(50, 186, 172, 0.89);
+    font-weight: bold;
+
+    border: none;
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    margin-top: 30px;
+}
+
+
+/* زر الإغلاق */
+#closeModalLogin {
     position: absolute;
+    font-weight: bold;
 
     top: 15px;
-
     left: 15px;
 
     width: 35px;
     height: 35px;
 
+    border: none;
     border-radius: 50%;
 
     cursor: pointer;
+
     background-color: red;
 }
 
 
-.modalRegister{
- position: relative;
+.modalRegister {
+    position: relative;
 
-    width:600px;
-    height:800px;
+    width: 500px;
+    height: 650px;
 
-    background:white;
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
 
-    border-radius:10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
-    padding:20px;
+    gap: 15px;
+}
 
-    display:flex;
 
-    flex-direction:column;
+/* عنوان Create Account */
+.modalRegister h2 {
+    margin: 0 0 10px 0;
+    font-weight: 700;
+}
 
-    justify-content:center;
 
-    align-items:center;
+/* الفورم */
+#registerForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
-    gap:20px;
+    gap: 12px;
+}
+
+.loginFelids:focus {
+    border-color:rgba(50, 186, 172, 0.89);
+    outline: none;
+}
+
+
+/* Gender */
+#registerForm > div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    margin-top: 5px;
+}
+
+
+/* زر Create Account */
+#submitR {
+    width: 180px;
+    height: 45px;
+
+    border: none;
+    border-radius: 12px;
+
+    cursor: pointer;
+background-color: rgba(50, 186, 172, 0.89);
+
+    margin-top: 45px;
+
+    font-weight: 700;
+}
+
+
+/* رسالة الخطأ / النجاح */
+#message {
+    margin: 0;
+}
+
+
+/* زر الإغلاق */
+#closeModalRegister {
+    position: absolute;
+
+    top: 15px;
+    left: 15px;
+    font-weight: bold;
+
+    width: 35px;
+    height: 35px;
+
+    border: none;
+    border-radius: 50%;
+
+    cursor: pointer;
+
+    background-color: red;
 }
