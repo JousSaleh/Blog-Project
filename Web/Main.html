@@ -50,7 +50,7 @@
 
     <div class="modallLogin">
 
-        <button id="closeModalLogin">✕</button>
+        <button id="closeModalLogin">x</button>
 
         <h2>Login</h2>
 
@@ -79,7 +79,7 @@
     <div class="modalRegister">
 
         <button id="closeModalRegister" type="button">
-            ✕
+            x
         </button>
 
         <h2>Create Account</h2>
@@ -182,6 +182,77 @@
 
 
 
+
+
+
+
+<button id="openCreatePost" class="createPostButton">
+    +
+</button>
+
+<div id="createPostModal" class="postModal">
+
+    <div class="createPostBox">
+
+        <button
+            type="button"
+            id="closeCreatePost"
+            class="closePostModal">
+            ×
+        </button>
+
+        <h2>Create Post</h2>
+<form id="postForm" enctype="multipart/form-data">
+
+    <input
+        type="text"
+        id="title"
+        name="title"
+        placeholder="Post title"
+        required
+    >
+
+    <textarea
+        id="contents"
+        name="contents"
+        placeholder="Write your post..."
+        required
+    ></textarea>
+
+    <input
+        type="file"
+        id="contentPhotos"
+        name="contentPhotos"
+        accept="image/*"
+        multiple
+    >
+
+
+            <button type="submit" class="publishButton">
+                Publish Post
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+
+
+<div id="postsContainer"></div>
+
+
+<div id="imageModal" class="image-modal">
+
+    <span id="closeImageModal" class="close-image-modal">
+        &times;
+    </span>
+
+    <img id="expandedImage" class="expanded-image">
+
+</div>
 
 
 
