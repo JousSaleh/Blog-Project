@@ -3,7 +3,7 @@ const path = require("path");
 const bcrypt = require("bcrypt");
 const pool = require("./databasepg");
 const session = require("express-session");
-
+const multer = require("multer");
 const app = express();
 
 app.use(express.json());
@@ -19,6 +19,10 @@ app.use(
         }
     })
 );
+
+const upload = multer({
+    dest: "Web/uploads/"
+});
 
 // =========================
 // Open Main.html
@@ -269,6 +273,125 @@ app.get("/me", (req, res) => {
     });
 
 });
+
+
+
+
+
+
+app.post(
+    "/api/posts",
+    upload.array("contentPhotos", 10),
+    async (req, res) => {
+
+        try {
+
+            if (!req.session.user) {
+                return res.status(401).json({
+                    error: "You must login first"
+                });
+            }
+
+            const { title, contents } = req.body;
+
+            if (!title || !contents) {
+                return res.status(400).json({
+                    error: "Title and content are required"
+                });
+            }
+
+            const user_id = req.session.user.user_id;
+
+            // جميع الصور
+            const content_photos = req.files
+                ? JSON.stringify(
+                    req.files.map(file => `/uploads/${file.filename}`)
+                )
+                : null;
+
+            const result = await pool.query(
+                `INSERT INTO Posts
+                (Title, Contents, Content_Photos, user_id)
+                VALUES ($1, $2, $3, $4)
+                RETURNING *`,
+                [
+                    title,
+                    contents,
+                    content_photos,
+                    user_id
+                ]
+            );
+
+            res.status(201).json({
+                message: "Post created successfully",
+                post: result.rows[0]
+            });
+
+        } catch (error) {
+
+            console.error(error);
+
+            res.status(500).json({
+                error: "Server error"
+            });
+        }
+    }
+);
+
+
+
+app.get("/api/posts", async (req, res) => {
+
+    try {
+
+        const result = await pool.query(`
+            SELECT
+                Posts.post_id,
+                Posts.Title,
+                Posts.Contents,
+                Posts.Content_Photos,
+                Posts.user_id,
+                users.Username,
+                users.Profile_image
+            FROM Posts
+            JOIN users
+            ON Posts.user_id = users.user_id
+            ORDER BY Posts.post_id DESC
+        `);
+
+        res.json(result.rows);
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            error: "Server error"
+        });
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

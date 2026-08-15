@@ -526,9 +526,242 @@ if (logoutButton) {
 }
 
 
+const openCreatePost = document.getElementById("openCreatePost");
+const createPostModal = document.getElementById("createPostModal");
+const closeCreatePost = document.getElementById("closeCreatePost");
+
+
+// Open Modal
+
+openCreatePost.addEventListener("click", () => {
+
+    createPostModal.classList.add("active");
+
+});
+
+
+// Close Modal
+
+closeCreatePost.addEventListener("click", () => {
+
+    createPostModal.classList.remove("active");
+
+});
+
+
+// Close when clicking outside the box
+
+createPostModal.addEventListener("click", (event) => {
+
+    if (event.target === createPostModal) {
+
+        createPostModal.classList.remove("active");
+
+    }
+
+});
+
+
+
+
+const postForm = document.getElementById("postForm");
+
+postForm.addEventListener("submit", async function (event) {
+
+    event.preventDefault();
+
+    const formData = new FormData(postForm);
+
+    try {
+
+        const response = await fetch("/api/posts", {
+            method: "POST",
+            body: formData
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            alert(data.error);
+            return;
+        }
+
+        alert("Post created successfully!");
+
+        postForm.reset();
+
+        createPostModal.classList.remove("active");
+
+        loadPosts();
+
+    } catch (error) {
+
+        console.error(error);
+        alert("Something went wrong");
+
+    }
+
+});
+
+
+
+
+
+const postsContainer = document.getElementById("postsContainer");
+
+async function loadPosts() {
+
+    try {
+
+        const response = await fetch("/api/posts");
+
+        const posts = await response.json();
+
+        if (!response.ok) {
+
+            console.error(posts.error);
+
+            return;
+        }
+
+        postsContainer.innerHTML = "";
+
+        posts.forEach(post => {
+
+            const postElement = document.createElement("div");
+
+            postElement.classList.add("post");
+            
+            // =========================
+            // Images
+            // =========================
+
+            const images = post.content_photos
+                ? JSON.parse(post.content_photos)
+                : [];
+
+
+            const imagesHTML = images.map(image => {
+
+                return `
+                    <img
+                        class="post-image"
+                        src="${image}"
+                        alt="Post image"
+                    >
+                `;
+
+            }).join("");
+
+
+             // =========================
+            // Post HTML
+            // =========================
+
+            postElement.innerHTML = `
+
+                <div class="post-user">
+
+                    <img
+                        src="${post.profile_image || "default-profile.png"}"
+                        alt="Profile picture"
+                    >
+
+                    <span dir="auto">
+                        ${post.username}
+                    </span>
+
+                </div>
+
+
+                <h2 dir="auto">
+                    ${post.title}
+                </h2>
+
+
+                <p dir="auto">
+                    ${post.contents}
+                </p>
+
+                <div class="post-images">
+                    ${imagesHTML}
+                </div>
+
+            `;
+
+
+            postsContainer.appendChild(postElement);
+
+        });
+
+    } catch (error) {
+
+        console.error("Error loading posts:", error);
+
+    }
+
+}
+
+
+
+
+
+
+// =========================
+// Image Modal
+// =========================
+
+const imageModal = document.getElementById("imageModal");
+const expandedImage = document.getElementById("expandedImage");
+const closeImageModal = document.getElementById("closeImageModal");
+
+
+// فتح الصورة
+
+document.addEventListener("click", function (event) {
+
+    if (event.target.classList.contains("post-image")) {
+
+        expandedImage.src = event.target.src;
+
+        imageModal.classList.add("active");
+    }
+
+});
+
+
+// إغلاق الصورة
+
+imageModal.addEventListener("click", function (event) {
+
+    // إذا ضغط على الخلفية أو X
+    if (
+        event.target === imageModal ||
+        event.target === closeImageModal
+    ) {
+
+        imageModal.classList.remove("active");
+
+        expandedImage.src = "";
+    }
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
     // =========================
     // Check Login Status
     // =========================
 
     updateNavbar();
-
+loadPosts();
